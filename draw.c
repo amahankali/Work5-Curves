@@ -61,6 +61,11 @@ void add_curve( struct matrix *points,
 		double x2, double y2, 
 		double x3, double y3, 
 		double step, int type ) {
+
+  //x coefficients and y coefficients
+  struct matrix* xCoeffs = generate_curve_coefs(x0, x1, x2, x3, type);
+  struct matrix* yCoeffs = generate_curve_coefs(x0, x1, x2, x3, type);
+
 }
 
 
