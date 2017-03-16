@@ -1,0 +1,2 @@
+- Verify coefficients of inverse matrices in matrix.c
+- Go through curve coefficients method in matrix.c
