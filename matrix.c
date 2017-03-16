@@ -58,7 +58,7 @@ struct matrix * generate_curve_coefs( double p1, double p2,
 				      double p3, double p4, int type) {
 
   struct matrix* coeffs = new_matrix(4, 1);
-  coeffs.lastcol = 1;
+  coeffs->lastcol = 1;
 
   if(type == BEZIER)
   {
