@@ -10,7 +10,15 @@
   to generate the coefiecients for a bezier curve
   ====================*/
 struct matrix * make_bezier() {
-    return NULL;
+    struct matrix* inverse = new_matrix(4, 4);
+    inverse->lastcol = 4;
+
+    inverse->m[0][0] = -1; inverse->m[0][1] = 3; inverse->m[0][2] = -3; inverse->m[0][3] = 1;
+    inverse->m[1][0] = 3; inverse->m[1][1] = -6; inverse->m[1][2] = -3; inverse->m[1][3] = 0;
+    inverse->m[2][0] = -3; inverse->m[2][1] = 3; inverse->m[2][2] = 0; inverse->m[2][3] = 0;
+    inverse->m[3][0] = 1; inverse->m[3][1] = 0; inverse->m[3][2] = 0; inverse->m[3][3] = 0;
+
+    return inverse;
 }
 
 /*======== struct matrix * make_hermite() ==========
@@ -21,7 +29,15 @@ struct matrix * make_bezier() {
   the coefiecients for a hermite curve
   ====================*/
 struct matrix * make_hermite() {
-  return NULL;
+    struct matrix* inverse = new_matrix(4, 4);
+    inverse->lastcol = 4;
+
+    inverse->m[0][0] = 2; inverse->m[0][1] = -2; inverse->m[0][2] = 1; inverse->m[0][3] = 1;
+    inverse->m[1][0] = -3; inverse->m[1][1] = 3; inverse->m[1][2] = -2; inverse->m[1][3] = 1;
+    inverse->m[2][0] = 0; inverse->m[2][1] = 0; inverse->m[2][2] = 1; inverse->m[2][3] = 0;
+    inverse->m[3][0] = 1; inverse->m[3][1] = 0; inverse->m[3][2] = 0; inverse->m[3][3] = 0;
+
+    return inverse;
 }
 
 /*======== struct matrix * generate_curve_coefs() ==========
@@ -40,7 +56,31 @@ struct matrix * make_hermite() {
   ====================*/
 struct matrix * generate_curve_coefs( double p1, double p2, 
 				      double p3, double p4, int type) {
-  return NULL;
+
+  struct matrix* coeffs = new_matrix(4, 1);
+  coeffs.lastcol = 1;
+
+  if(type == BEZIER)
+  {
+    struct matrix* inverse = make_bezier();
+    coeffs->m[0][0] = p1; coeffs->m[1][0] = p2;
+    coeffs->m[2][0] = p3; coeffs->m[3][0] = p4;
+    matrix_mult(inverse, coeffs);
+    free_matrix(inverse);
+  }
+  else if(type == HERMITE)
+  {
+    struct matrix* inverse = make_hermite();
+    double x0 = p1; double x1 = p2;
+    double d0 = p3; double d1 = p4;
+    coeffs->m[0][0] = x0; coeffs->m[1][0] = x1;
+    coeffs->m[2][0] = d0; coeffs->m[3][0] = d1;
+    matrix_mult(inverse, coeffs);
+    free_matrix(inverse);
+  }
+  else coeffs = NULL;
+
+  return coeffs;
 }
 
 
