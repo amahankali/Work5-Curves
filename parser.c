@@ -168,6 +168,35 @@ void parse_file ( char * filename,
       save_extension(s, line);
     }//end save
 
+    else if(strncmp(line, "circle", strlen(line)) == 0)
+    {
+      fgets(line, sizeof(line), f);
+      double cX, cY, cZ, R;
+      cX = cY = cZ = R = 0;
+
+      sscanf(line, "%lf %lf %lf %lf", &cX, &cY, &cZ, &R);
+      add_circle(edges, cX, cY, cZ, R, 0.005);
+    }
+
+    else if(strncmp(line, "hermite", strlen(line)) == 0)
+    {
+      fgets(line, sizeof(line), f);
+      double x0, x1, y0, y1, rx0, ry0, rx1, ry1;
+      x0 = x1 = y0 = y1 = rx0 = ry0 = rx1 = ry1 = 0;
+
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &x1, &y0, &y1, &rx0, &ry0, &rx1, &ry1);
+      add_curve(edges, x0, y0, x1, y1, rx0, ry0, rx1, ry1, 0.005, HERMITE);
+    }
+
+    else if(strncmp(line, "bezier", strlen(line)) == 0)
+    {
+      fgets(line, sizeof(line), f);
+      double x0, y0, x1, y1, x2, y2, x3, y3;
+      x0 = y0 = x1 = y1 = x2 = y2 = x3 = y3 = 0;
+
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &y0, &x1, &y1, &x2, &y2, &x3, &y3);
+      add_curve(edges, x0, y0, x1, y1, x2, y2, x3, y3, 0.005, BEZIER);
+    }
     
   }
 }
