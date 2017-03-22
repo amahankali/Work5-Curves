@@ -184,8 +184,15 @@ void parse_file ( char * filename,
       double x0, x1, y0, y1, rx0, ry0, rx1, ry1;
       x0 = x1 = y0 = y1 = rx0 = ry0 = rx1 = ry1 = 0;
 
-      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &x1, &y0, &y1, &rx0, &ry0, &rx1, &ry1);
-      add_curve(edges, x0, y0, x1, y1, rx0, ry0, rx1, ry1, 0.005, HERMITE);
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &y0, &x1, &y1, &rx0, &ry0, &rx1, &ry1);
+      printf("======================\n");
+      printf("Reading in Hermite Curve:\n");
+      printf("P0: x0: %lf y0: %lf\n", x0, y0);
+      printf("P1: x1: %lf y1: %lf\n", x1, y1);
+      printf("M0: rx0: %lf ry0: %lf\n", rx0, ry0);
+      printf("M1: rx1: %lf ry1: %lf\n", rx1, ry1);
+
+      add_curve(edges, x0, y0, x1, y1, rx0, ry0, rx1, ry1, 0.000005, HERMITE);
     }
 
     else if(strncmp(line, "bezier", strlen(line)) == 0)
@@ -195,9 +202,10 @@ void parse_file ( char * filename,
       x0 = y0 = x1 = y1 = x2 = y2 = x3 = y3 = 0;
 
       sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf", &x0, &y0, &x1, &y1, &x2, &y2, &x3, &y3);
-      add_curve(edges, x0, y0, x1, y1, x2, y2, x3, y3, 0.005, BEZIER);
+      add_curve(edges, x0, y0, x1, y1, x2, y2, x3, y3, 0.000005, BEZIER);
     }
     
+    else if(strncmp(line, "quit", strlen(line)) == 0) break;
   }
 }
   

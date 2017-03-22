@@ -4,6 +4,16 @@
 
 #include "matrix.h"
 
+void clear_matrix(struct matrix* k)
+{
+  int i = 0;
+  for(; i < k->rows; i++)
+  {
+    int j = 0;
+    for(; j < k->lastcol; k++) k->m[i][j] = 0;
+  }
+}
+
 /*======== struct matrix * make_bezier() ==========
   Inputs:   
   Returns: The correct 4x4 matrix that can be used 
@@ -13,8 +23,9 @@ struct matrix * make_bezier() {
     struct matrix* inverse = new_matrix(4, 4);
     inverse->lastcol = 4;
 
+    //{{-1, 3, -3, 1}, {3, -6, 3, 0}, {-3, 3, 0, 0}, {1, 0, 0, 0}}
     inverse->m[0][0] = -1; inverse->m[0][1] = 3; inverse->m[0][2] = -3; inverse->m[0][3] = 1;
-    inverse->m[1][0] = 3; inverse->m[1][1] = -6; inverse->m[1][2] = -3; inverse->m[1][3] = 0;
+    inverse->m[1][0] = 3; inverse->m[1][1] = -6; inverse->m[1][2] = 3; inverse->m[1][3] = 0;
     inverse->m[2][0] = -3; inverse->m[2][1] = 3; inverse->m[2][2] = 0; inverse->m[2][3] = 0;
     inverse->m[3][0] = 1; inverse->m[3][1] = 0; inverse->m[3][2] = 0; inverse->m[3][3] = 0;
 
@@ -32,8 +43,9 @@ struct matrix * make_hermite() {
     struct matrix* inverse = new_matrix(4, 4);
     inverse->lastcol = 4;
 
+    //{{2, -2, 1, 1}, {-3, 3, -2, -1}, {0, 0, 1, 0}, {1, 0, 0, 0}}
     inverse->m[0][0] = 2; inverse->m[0][1] = -2; inverse->m[0][2] = 1; inverse->m[0][3] = 1;
-    inverse->m[1][0] = -3; inverse->m[1][1] = 3; inverse->m[1][2] = -2; inverse->m[1][3] = 1;
+    inverse->m[1][0] = -3; inverse->m[1][1] = 3; inverse->m[1][2] = -2; inverse->m[1][3] = -1;
     inverse->m[2][0] = 0; inverse->m[2][1] = 0; inverse->m[2][2] = 1; inverse->m[2][3] = 0;
     inverse->m[3][0] = 1; inverse->m[3][1] = 0; inverse->m[3][2] = 0; inverse->m[3][3] = 0;
 
@@ -54,11 +66,11 @@ struct matrix * make_hermite() {
   
   Type determines whether the curve is bezier or hermite
   ====================*/
-struct matrix * generate_curve_coefs( double p1, double p2, 
-				      double p3, double p4, int type) {
-
+struct matrix* generate_curve_coefs(double p1, double p2, double p3, double p4, int type)
+{
   struct matrix* coeffs = new_matrix(4, 1);
   coeffs->lastcol = 1;
+  clear_matrix(coeffs);
 
   if(type == BEZIER)
   {
