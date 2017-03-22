@@ -4,16 +4,6 @@
 
 #include "matrix.h"
 
-void clear_matrix(struct matrix* k)
-{
-  int i = 0;
-  for(; i < k->rows; i++)
-  {
-    int j = 0;
-    for(; j < k->lastcol; k++) k->m[i][j] = 0;
-  }
-}
-
 /*======== struct matrix * make_bezier() ==========
   Inputs:   
   Returns: The correct 4x4 matrix that can be used 
@@ -70,7 +60,6 @@ struct matrix* generate_curve_coefs(double p1, double p2, double p3, double p4, 
 {
   struct matrix* coeffs = new_matrix(4, 1);
   coeffs->lastcol = 1;
-  clear_matrix(coeffs);
 
   if(type == BEZIER)
   {
